@@ -45,19 +45,20 @@ public class TrabalhoOtimizacaoDeAlgoritmos {
         
         // 4) Simulated annealing para o problema da mochila
         System.out.println("Simulated annealing (mochila):\n");
-        annealing(400);
+        annealing(400);		// Passando o tamanho da mochila
         System.out.println("####################################################################");
         
     }
 
     private static void fluxo() {
         FluxoMaximo fluxo = new FluxoMaximo();
-        fluxo.gerarMatriz(10);
-        fluxo.run();
+        fluxo.gerarMatriz(10);		// Gera uma matriz nxn
+        fluxo.run();				// Roda o algoritmo
     }
 
     private static void arvore() {
         ArvoreGeradora arvore = new ArvoreGeradora();
+		// Adiciona os Nodos:
         arvore.addItem(1, 2, 1);
         arvore.addItem(1, 4, 2);
         arvore.addItem(2, 4, 4);
@@ -68,11 +69,11 @@ public class TrabalhoOtimizacaoDeAlgoritmos {
         arvore.addItem(3, 5, 8);
         arvore.addItem(3, 6, 5);
         
-        arvore.run();
+        arvore.run();				// Roda o algoritmo
     }
     
     private static void tabu() {
-        KnapsackData knapsackData = new KnapsackData(400);
+        KnapsackData knapsackData = new KnapsackData(400);	// Cria e a mochila e add itens:
         knapsackData.addItem(new ItemMochila("Mapa", 9, 150));
         knapsackData.addItem(new ItemMochila("Bussola", 13, 35));
         knapsackData.addItem(new ItemMochila("Agua", 153, 200));
@@ -97,9 +98,9 @@ public class TrabalhoOtimizacaoDeAlgoritmos {
         knapsackData.addItem(new ItemMochila("Livro", 30, 10));
         
         TabuSearch buscaTabu = new TabuSearch();
-        buscaTabu.Busca(400, knapsackData);
-        buscaTabu.run();
-        buscaTabu.printData();
+        buscaTabu.Busca(400, knapsackData);			// Faz a busca tabu na mochila acima e informa o tamanho da mochila
+        buscaTabu.run();							// Roda o algoritmo
+        buscaTabu.printData();						// Imprime o resultado
         
     }
 
@@ -135,8 +136,9 @@ public class TrabalhoOtimizacaoDeAlgoritmos {
         double temperaturaInicial = 100;
         int amostras = 350;
         
-        // Resolver
-        KnapsackSolver solver = new KnapsackSolver(knapsackData, new SAStrategy(amostras, temperaturaInicial, temperaturaFinal, fatorResfriamento));
+        // Resolver(Algoritmo)
+        KnapsackSolver solver = new KnapsackSolver(knapsackData, 
+			new SAStrategy(amostras, temperaturaInicial, temperaturaFinal, fatorResfriamento));
         SolucaoMochila solucao = solver.getSolution();
 
         // Mostra a solução

@@ -43,6 +43,7 @@ public class SAStrategy implements KnapsackStrategy {
         BinarySolution best = current;
         current.updateFitness(data, ALPHA);
 
+		// Enquanto a temperatura não chega ao fim: (Algoritmo)
         while (temperature > endingTempreture) {
             for (int m = 0; m < samplingSize; m++) {
                 current = getNextState(current);
@@ -50,7 +51,7 @@ public class SAStrategy implements KnapsackStrategy {
                     best = current;
                 }
             }
-            cool();
+            cool();	// "Resfria"
         }
 
         long end = System.currentTimeMillis();
@@ -58,6 +59,7 @@ public class SAStrategy implements KnapsackStrategy {
         return new SolucaoMochila(pickedItem, end - start);
     }
 
+	// Pega o proximo estagio:
     private BinarySolution getNextState(BinarySolution current) {
         BinarySolution newSolution = getNeighbour(current);
         double delta = newSolution.getFitness() - current.getFitness();
@@ -65,7 +67,7 @@ public class SAStrategy implements KnapsackStrategy {
             return newSolution;
         } else {
             double x = Math.random();
-            if (x < Math.exp(-delta / temperature)) {
+            if (x < Math.exp(-delta / temperature)) {	// Se satisfaz, retorna a nova solução:
                 return newSolution;
             } else {
                 return current;

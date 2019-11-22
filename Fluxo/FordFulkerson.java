@@ -68,30 +68,29 @@ public class FordFulkerson {
     public boolean buscaCaminho(){
         boolean existeCaminho = false;
         
-        // "reseto" as variaveis
+        // Limpar as variaveis
         for(int v = 0; v < this.quant_vertices; v++){
             caminho[v] = -1;
             visitados[v] = false;
         }
  
-        fila.add(this.inicio); // Add o vertice inicial na fila (FIFO)
-        //this.caminho[this.inicio] = -1;
+        fila.add(this.inicio);				// Add o vertice inicial na fila (FIFO)
         visitados[this.inicio] = true;
  
-        while (!fila.isEmpty()){ // Enquanto a fila nao estiver vazia:
-            int vertice = fila.remove(); //tira o primeiro v�rtice adicionado
+        while (!fila.isEmpty()){			// Enquanto a fila nao estiver vazia:
+            int vertice = fila.remove();	// Tira o primeiro vertice adicionado
             
             for(int i = 0; i < this.quant_vertices; i++){
             	// Se existir uma ligacao entre os vertices, a capacidade for maior que zero e ainda nao foi visitado
             	if (this.grafoResidual[vertice][i] > 0 &&  !this.visitados[i]){
-                    this.caminho[i] = vertice; // Add ele no vetor que guarda o caminho
-                    fila.add(i); // Add o vertice no final da fila
-                    this.visitados[i] = true; // Marcado como visitado
+                    this.caminho[i] = vertice;	// Add ele no vetor que guarda o caminho
+                    fila.add(i);				// Add o vertice no final da fila
+                    this.visitados[i] = true;	// Marcar como visitado
                 }
             }
         }
         
-        if(this.visitados[this.destino]){ // Verifica se um caminho até o destino foi formado
+        if(this.visitados[this.destino]){		// Verifica se um caminho até o destino foi formado
             existeCaminho = true;
         }
         

@@ -13,24 +13,25 @@ import trabalho.otimizacao.de.algoritmos.Annealing.KnapsackData;
 public class TabuSearch{
 
     double pesoMaximoMochila = 400;     // Peso máximo Mochila, padrão, alterada por parametro
-    private int maxIteracoes = 400;     // Iterações sem melhora
+    private int maxIteracoes = 400;     // Maximo de Iterações
 
-    private List<String> itemNames = new ArrayList<String>();
-    private List<Integer> pesos = new ArrayList<Integer>();
-    private List<Integer> valores = new ArrayList<Integer>();
+    private List<String> itemNames = new ArrayList<String>();	//
+    private List<Integer> pesos = new ArrayList<Integer>();		// Nomes, Pesos e valores
+    private List<Integer> valores = new ArrayList<Integer>();	//
     
     private double alpha;               // Somatório de todas as utilidades
 
-    private int[] solucaoAtual;
-    private int[] solucaoMelhor;
-    private double melhorAvaliacao;
-    private int melhorIteracao = 0;     // Melhor iteração
+    private int[] solucaoAtual;			// Solução atual (Verificando)
+    private int[] solucaoMelhor;		// Melhor Solução encontrada
+    private double melhorAvaliacao;		// Melhor avaliação da solução
+    private int melhorIteracao = 0;     // Salva a melhor iteração
 
     private List<Integer> tabu;
 
     public void Busca(int tamanhoMochila, KnapsackData knapsackData) {
         pesoMaximoMochila = tamanhoMochila;
         
+		// Pega e separa todas informações da mochila:
         for (int i = 0; i < knapsackData.getSize(); i++) {
             itemNames.add(knapsackData.getItem(i).getNome());
             pesos.add(knapsackData.getItem(i).getWeight());
@@ -39,54 +40,59 @@ public class TabuSearch{
         
         tabu = new ArrayList<>();
 
+		// Cria as soluções como "pior", pq o que vier é melhor:
         solucaoAtual = new int[knapsackData.getSize()];
         solucaoMelhor = new int[knapsackData.getSize()];
         initAlpha();
 
+		// Cria a solução inicial:
         initFirstSolution();
 
+		// Gera resultados e informações:
         melhorAvaliacao = avaliacao(solucaoAtual);
         solucaoMelhor = solucaoAtual.clone();
         melhorIteracao = 0;
     }
 
+	// Inicializa o Alfa:
     private void initAlpha() {
         for (double d : valores) {
             alpha += d;
         }
     }
 
+	// Cria a solução inicial:
     private void initFirstSolution() {
-        Random r = new Random();
+        //Random r = new Random();
 
         for (int i = 0; i < solucaoAtual.length; i++) {
-            //currentSolution[i] = r.nextInt(2);
             solucaoAtual[i] = 1;
         }
     }
 
     /**
-     * Método principal
+     * Método principal do algoritmo:
      */
     public void run() {
-        int itAtual = 0;
-        int random = 0;
-
+        int itAtual = 0;	// Iteração atual
+        
+		// Enquanto não atingir o maximo de iteraçoes:
         while ((itAtual - melhorIteracao) < maxIteracoes) {
             itAtual++;
 
             int[] bestNeighbor = buscarMelhorVizinho(solucaoAtual);
             solucaoAtual = bestNeighbor.clone();
-            double aval = avaliacao(bestNeighbor);
+            double aval = avaliacao(bestNeighbor);		// Avalia o vizinho
 
-            if (aval > melhorAvaliacao) {
-                melhorAvaliacao = aval;
-                melhorIteracao = itAtual;
-                solucaoMelhor = bestNeighbor;
+            if (aval > melhorAvaliacao) {			// Se a avaliação for melhor:
+                melhorAvaliacao = aval;				// Salva melhor avaliação
+                melhorIteracao = itAtual;			// Salva o nr da iteração
+                solucaoMelhor = bestNeighbor;		// Salva a melhor solução
             }
         }
     }
     
+	// Não utilizado
     public void run2() {
         int itAtual = 0;
         int random = 0;
@@ -175,6 +181,7 @@ public class TabuSearch{
                 }
             }
         }
+
         addToTabu(tabuPos);
         return melhorVizinho;
     }
@@ -186,14 +193,14 @@ public class TabuSearch{
         double valor = 0;
         for (int i = 0; i < solution.length; i++) {
             if (solution[i] == 1) {
-                valor += valores.get(i);
+                valor += valores.get(i);		// Somatório de todos os valores
             }
         }
 
         double peso = 0;
         for (int i = 0; i < solution.length; i++) {
             if (solution[i] == 1) {
-                peso += pesos.get(i);
+                peso += pesos.get(i);			// Somatório de todos os pesos
             }
         }
 
@@ -205,7 +212,7 @@ public class TabuSearch{
     }
 
     /**
-     * Adiciona para a lista tabu caso o tamanho dela for maior que 15
+     * Adiciona para a lista tabu (caso o tamanho dela for maior que 15 remove o primeiro)
      *
      * @param value
      */
@@ -248,6 +255,7 @@ public class TabuSearch{
         return aval > melhorAvaliacao;
     }
     
+	// Função de avaliação 2 (tentando melhorar o desempenho)
     private boolean funcaoAspiracao2(int posicao, int[] solucao) {
         if (solucao[posicao] == 0) {
             solucao[posicao] = 1;
@@ -272,7 +280,7 @@ public class TabuSearch{
             }
         }
         
-        System.out.println("Aval Valor: " + valor);
+        System.out.println("Aval valor: " + valor);
         System.out.println("Aval peso: " + peso);
 
         double max = Math.max(0, peso - pesoMaximoMochila);
@@ -281,7 +289,7 @@ public class TabuSearch{
 
     }
         
-    // Imprime
+    // Imprime resultado
     public void printData() {
         System.out.println("Itens Mochila: " + Arrays.toString(solucaoMelhor));
         System.out.println("Valor Total: " + melhorAvaliacao);

@@ -17,11 +17,13 @@ public class FluxoMaximo {
     int matriz[][];
     int tamanho;
         
+	// Caso não informe, cria uma matriz 10x10
     public FluxoMaximo() {
         gerarMatriz(10);
         tamanho = 10;
     }
     
+	// Gera uma matriz aleatória:
     public void gerarMatriz(int tamanhoMatriz){
         matriz = new int[tamanhoMatriz][tamanhoMatriz];
         tamanho = tamanhoMatriz;
@@ -40,6 +42,7 @@ public class FluxoMaximo {
         }
     }
     
+	// Caso informe um arquivo:
     public void lerArquivoMatriz(String local) {
         try {
             //BufferedReader dados = new BufferedReader(new FileReader("c:/matriz1.txt"));
@@ -88,6 +91,7 @@ public class FluxoMaximo {
         }
     }
     
+	// Roda o algoritmo:
     public void run() {
         try {
             System.out.println("Matriz de adjacencia: ");
@@ -95,7 +99,6 @@ public class FluxoMaximo {
                 for(int n = 0; n < matriz.length; n++){
                     if(matriz[m][n] < 10) System.out.print(matriz[m][n] + "  ");
                     else System.out.print(matriz[m][n] + " ");    
-                    
                 }
                 System.out.print("\n");
             }
@@ -109,7 +112,7 @@ public class FluxoMaximo {
             //int destino = scanner.nextInt();
             //scanner.close();
             
-            // Automático
+            // Gera Entrada e Saida Automática
             int inicio = 0;
             int destino = tamanho/2;
             

@@ -15,9 +15,9 @@ public class ArvoreItem {
     public int cost;
 
     public ArvoreItem(int from, int to, int cost) {
-        this.from = from;
-        this.to = to;
-        this.cost = cost;
+        this.from = from;		// Inicio
+        this.to = to;			// Destino
+        this.cost = cost;		// Custo
     }
 
     public ArvoreItem() {
